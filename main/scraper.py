@@ -20,10 +20,9 @@ def getEvents():
         city = item.text.strip()
 
         if city == 'London':
-            print True
             return True
         else:
-            print False
+            print(False)
 
         # print item.text
 
