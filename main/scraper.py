@@ -14,23 +14,34 @@ def getEvents():
     sectionContent = soup.find('section', {'id': 'banner'})
 
     tagContent = sectionContent.find_all('span', {'class': 'label status'})
-
+    
+    count = 0
+    
     for item in tagContent:
-
         city = item.text.strip()
-
         if city == 'London':
-            return True
+            count += 1
+            print(True)
         else:
             print(False)
-
+            
+    if count > 0:
+        return True, count
+    else:
+        return False, 0
         # print item.text
 
 def sendNotification():
+    city_output,city_count = getEvents()
     url = os.environ['WEBHOOK_URL']
-    message = {'text' : 'There is a London event, sign up at https://codebar.io/events'}
-    requests.post(url, json=message)
+    if city_output == True:
+        if city_count == 1:
+            message = {'text' : str.format('There is {} London event, sign up at https://codebar.io/events', city_count)}
+        elif city_count > 1:
+            message = {'text' : str.format('There are {} London events, sign up at https://codebar.io/events', city_count)}      
+        requests.post(url, json=message)
+    else:
+        print('None')
+    return city_output
 
-
-if getEvents() == True:
-    sendNotification()
+sendNotification()

@@ -3,7 +3,7 @@ workflows:
    nightly:
      triggers:
        - schedule:
-           cron: "00 7 * * *"
+           cron: "00 16,22 * * *"
            filters:
              branches:
                only:
@@ -15,6 +15,7 @@ jobs:
  build:
    machine: true
    steps:
+    # downloads
      - checkout
 
      # build the application image
