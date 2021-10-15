@@ -10,6 +10,17 @@ workflows:
                  - master
      jobs:
        - build
+   build-branch:
+     jobs:
+       - hold-job:
+           type: approval
+           filters:
+               branches:
+                 ignore:
+                   - master
+       - build:
+           requires:
+             - hold-job
 version: 2
 jobs:
  build:
